@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  dd-agent:
+    image: gcr.io/datadoghq/agent:7
+    environment:
+      - DD_API_KEY=<YOUR-DATADOG-API-KEY>
+      - DD_APM_ENABLED=true
+      - DD_PROCESS_AGENT_CONTAINER_SOURCE=docker
+      - LOG_LEVEL=DEBUG
+      - DD_LOGS_STDOUT=yes
+      - DD_PROCESS_AGENT_ENABLED=true
+
+    expose:
+      - "8126"
+    ports:
+      - 8126:8126/tcp
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+
+  java-app:
+    image: dd-apm-spring-app
+    links:
+      - dd-agent
+      - mysql
+    environment:
+      - DD_AGENT_HOST=dd-agent
+      - DD_SERVICE_NAME=dd-apm-spring-app
+      - TAGS=host:dd-apm-spring-app,env:demo
+      - DATABASE_HOST=mysql
+      - DATABASE_NAME=my-db
+
+    ports:
+      - 8080:8080
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=my-db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pass
+    expose:
+      - "3306"
+    ports:
+      - 3306:3306
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d

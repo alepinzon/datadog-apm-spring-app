@@ -2,7 +2,7 @@
 POC with the Datadog docker agent and a Springboot Application with the APM feature of DD.
 
 ## Datadog Configuration
-- update the docker-compose.yml file with your datadog api key `<YOUR-DATADOG-API-KEY>`
+- update the [docker-compose.yml](https://github.com/alepinzon/datadog-apm-spring-app/blob/main/docker-compose.yml#L7) file with your datadog api key `<YOUR-DATADOG-API-KEY>`
 
 ## Run the Java example
 - Run `./gradlew build` (or `gradlew.bat` if on windows) to generate a .jar file.

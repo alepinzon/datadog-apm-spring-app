@@ -7,7 +7,7 @@ POC with the Datadog docker agent and a Springboot Application with the APM feat
 ## Run the Java example
 - Run `./gradlew build` (or `gradlew.bat` if on windows) to generate a .jar file.
 - Run to build the docker image: `docker build -t dd-apm-spring-app .`
-- Run the complete example executing the docker compose: `docker-compose up`
+- Run the complete example with docker compose: `docker-compose up`
 
 
 ## See APM in Datadog
